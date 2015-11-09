@@ -9,6 +9,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var ping = require('./routes/ping');
 var pong = require('./routes/pong');
+var esignup = require('./routes/esignup');
 
 var app = express();
 
@@ -28,6 +29,7 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/api', ping);
 app.use('/api', pong);
+app.use('/api', esignup);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
