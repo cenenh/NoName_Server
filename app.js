@@ -10,6 +10,7 @@ var users = require('./routes/users');
 var ping = require('./routes/ping');
 var pong = require('./routes/pong');
 var esignup = require('./routes/esignup');
+var glogin = require('./routes/glogin');
 
 var app = express();
 
@@ -25,11 +26,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 app.use('/', routes);
 app.use('/users', users);
 app.use('/api', ping);
 app.use('/api', pong);
 app.use('/api', esignup);
+app.use('/glogin', glogin);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
