@@ -11,7 +11,8 @@ var ping = require('./routes/ping');
 var pong = require('./routes/pong');
 var esignup = require('./routes/esignup');
 var glogin = require('./routes/glogin');
-
+var flogin = require('./routes/flogin');
+var facebook = require('./routes/auth/facebookLogin.js');
 var app = express();
 
 // view engine setup
@@ -32,7 +33,12 @@ app.use('/users', users);
 app.use('/api', ping);
 app.use('/api', pong);
 app.use('/api', esignup);
-app.use('/glogin', glogin);
+app.use('/auth/glogin', glogin);
+app.use('/auth/flogin',flogin);
+app.use('/auth/facebook', facebook);
+app.use('/auth/facebook/login_success', facebook);
+app.use('/auth/facebook/login_fail', facebook);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
