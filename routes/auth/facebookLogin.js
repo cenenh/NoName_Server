@@ -1,8 +1,14 @@
 var express = require('express');
 var router = express.Router();
-var passport = require('passport')
+var session = require('express-session');
+var passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
 
+router.use(session({
+  secret: 'your secret here',
+  resave: false,
+  saveUninitialized: false
+}));
 router.use(passport.initialize());
 router.use(passport.session());
 
@@ -40,16 +46,18 @@ router.get('/',
 
 router.get('/callback',
   passport.authenticate('facebook', {
-    successRedirect: '/auth/facebook/login_success',
-    failureRedirect: '/auth/facebook/login_fail'
+    successRedirect: 'http://localhost:3000/auth/facebook/login_success',
+    failureRedirect: 'http://localhost:3000/auth/facebook/login_fail'
   }
 ));
 
 router.get('/login_success', ensureAuthenticated, function(req, res){
+  console.log(req.user);
   console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
   console.log("Login SUCCESS!!!!!");
-  console.log(req.user);
-  res.send(req.user);
+  console.log(req.user._json.id);
+  console.log(req.user._json.name);
+  res.send(req.user._json);
 });
 
 router.get('/logout', function(req, res){
@@ -62,10 +70,7 @@ function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
       return next();
     }
-    // 로그인이 안되어 있으면, login 페이지로 진행
-    else {
-      res.redirect('/');
-    }
+    res.redirect('/');
 }
 
 module.exports = router;
